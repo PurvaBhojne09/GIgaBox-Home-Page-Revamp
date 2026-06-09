@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gigabox — Homepage that earns the first 3 minutes</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 28px; }
+  .case-hero{ background:var(--forest); color:#fff; padding:54px 0 60px; }
+  .case-hero .ey{ font-size:12px; font-weight:800; letter-spacing:.16em; color:var(--butter); text-transform:uppercase; }
+  .case-hero h1{ font-family:var(--font-display); font-weight:800; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.02em; margin:14px 0 0; max-width:16ch; }
+  .case-hero p{ font-size:clamp(15px,1.6vw,18px); line-height:1.5; opacity:.9; margin:16px 0 0; max-width:62ch; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+  .chip{ display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); padding:7px 13px; border-radius:30px; font-size:12.5px; font-weight:600; }
+  .chip b{ color:var(--butter); font-weight:800; }
+
+  .stage{ display:grid; grid-template-columns: 1fr 472px; gap:48px; align-items:start; padding:54px 0 80px; }
+  @media (max-width:1080px){ .stage{ grid-template-columns:1fr; } .phone-col{ position:static !important; order:-1; } }
+
+  .phone-col{ position:sticky; top:24px; display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .controls{ width:100%; max-width:412px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow-sm); }
+  .controls h4{ margin:0 0 10px; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .seg{ display:flex; background:var(--field); border-radius:11px; padding:4px; gap:4px; }
+  .seg button{ flex:1; padding:9px 8px; border-radius:8px; font-size:13px; font-weight:700; color:var(--muted); display:flex; align-items:center; justify-content:center; gap:6px; transition:.15s; }
+  .seg button.on{ background:#fff; color:var(--forest); box-shadow:var(--shadow-sm); }
+  .jumps{ display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+  .jumps button{ font-size:12px; font-weight:700; color:var(--forest); background:var(--leaf-soft); border:1px solid rgba(24,147,92,.22); padding:7px 12px; border-radius:9px; }
+  .jumps button:hover{ background:#d6ecdd; }
+
+  .rail h2{ font-family:var(--font-display); font-weight:800; font-size:26px; letter-spacing:-.015em; margin:0 0 6px; color:var(--ink); }
+
+  /* persona block */
+  .persona{ display:flex; gap:16px; background:#fff; border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:var(--shadow-sm); }
+  .persona-av{ flex-shrink:0; width:48px; height:48px; border-radius:14px; background:var(--butter); color:var(--forest); font-family:var(--font-display); font-weight:800; font-size:22px; display:grid; place-items:center; }
+  .persona-body{ min-width:0; }
+  .persona-name{ font-family:var(--font-display); font-weight:800; font-size:18px; color:var(--ink); }
+  .persona-body p{ margin:7px 0 0; font-size:13.5px; line-height:1.55; color:var(--ink-2); }
+  .persona-body p.imp{ font-size:13px; color:var(--muted); }
+  .qrow{ display:flex; flex-wrap:wrap; gap:7px; margin:12px 0 2px; }
+  .qbit{ font-size:12px; font-style:italic; font-weight:600; color:var(--forest); background:var(--leaf-soft); border:1px solid rgba(24,147,92,.22); padding:5px 11px; border-radius:20px; }
+
+  .rail-lead{ margin:36px 0 18px; }
+  .rail-lead h2{ margin:0 0 8px; }
+  .rail-lead p{ font-size:15px; color:var(--ink-2); line-height:1.55; margin:0; max-width:62ch; }
+
+  /* zone cards */
+  .zone{ background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px; margin-bottom:16px; box-shadow:var(--shadow-sm); scroll-margin-top:20px; }
+  .zone-top{ display:flex; align-items:flex-start; gap:14px; }
+  .zone-num{ flex-shrink:0; width:44px; height:44px; border-radius:13px; background:var(--forest); color:var(--butter); font-family:var(--font-display); font-weight:800; font-size:15px; display:grid; place-items:center; letter-spacing:.02em; }
+  .zone-head{ flex:1; min-width:0; }
+  .zone-head h3{ margin:0; font-family:var(--font-display); font-weight:800; font-size:19px; letter-spacing:-.01em; color:var(--ink); }
+  .zone-purpose{ display:inline-block; margin-top:5px; font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--leaf-ink); background:var(--leaf-soft); padding:4px 10px; border-radius:20px; }
+  .zone-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+  @media (max-width:560px){ .zone-grid{ grid-template-columns:1fr; } }
+  .zblock h4{ margin:0 0 8px; font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .zblock ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .zblock li{ position:relative; padding-left:18px; font-size:13px; line-height:1.45; color:var(--ink-2); }
+  .zblock li::before{ content:""; position:absolute; left:2px; top:7px; width:6px; height:6px; border-radius:2px; background:var(--leaf); }
+  .zblock.why p{ margin:0; font-size:13px; line-height:1.6; color:var(--ink-2); }
+  .zblock.why p b{ color:var(--ink); }
+
+  /* zone map table */
+  .map-h{ font-size:22px !important; margin-bottom:14px !important; }
+  .zmap{ background:#fff; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow-sm); }
+  .zmap-row{ display:grid; grid-template-columns:54px 1.1fr 1.4fr; align-items:center; gap:12px; padding:13px 16px; border-top:1px solid var(--line); }
+  .zmap-row:first-child{ border-top:none; }
+  .zmap-row .zc{ font-family:var(--font-display); font-weight:800; font-size:13px; color:#fff; background:var(--forest); width:34px; height:26px; display:grid; place-items:center; border-radius:7px; }
+  .zmap-row .zn{ font-size:13.5px; font-weight:800; color:var(--ink); }
+  .zmap-row .zp{ font-size:12.5px; color:var(--muted); line-height:1.4; }
+
+  .sec{ margin-top:42px; }
+  .sec .k{ font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--leaf-ink); margin-bottom:8px; }
+  .sec h2{ font-family:var(--font-display); font-weight:800; font-size:24px; letter-spacing:-.015em; margin:0 0 16px; }
+  .pgrid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:640px){ .pgrid{ grid-template-columns:1fr; } }
+  .pcard{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px; }
+  .pcard .ic{ width:40px; height:40px; border-radius:11px; background:var(--paper); display:grid; place-items:center; margin-bottom:11px; }
+  .pcard h4{ margin:0 0 5px; font-size:15px; font-weight:800; }
+  .pcard p{ margin:0; font-size:13px; line-height:1.5; color:var(--ink-2); }
+
+  .foot{ background:var(--forest); color:#fff; padding:30px 0; margin-top:60px; }
+  .foot .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; align-items:center; font-size:13px; }
+  .foot b{ font-family:var(--font-display); }
+</style>
+</head>
+<body>
+
+  <header class="case-hero">
+    <div class="wrap">
+      <div class="ey">Gigabox · Homepage redesign</div>
+      <h1>Winning Priyanka in the first three minutes</h1>
+      <p>She opens Gigabox at 9 PM, store nearly closed, with mild curiosity and one bad online-shopping memory. The homepage has one job: answer her three silent questions — <em>what is this, is it real, can I trust it</em> — before she scrolls past the fold.</p>
+      <div class="meta-row">
+        <span class="chip"><b>Persona</b> Priyanka, 32 · Jodhpur</span>
+        <span class="chip"><b>Window</b> ~3 min, first visit</span>
+        <span class="chip"><b>Catalog</b> Kitchen + Sports, expanding</span>
+        <span class="chip"><b>Edge</b> A real omnichannel store</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="stage">
+      <!-- rationale rail -->
+      <div class="rail">
+        <div class="persona">
+          <div class="persona-av">P</div>
+          <div class="persona-body">
+            <div class="persona-name">Priyanka, 32 · Jodhpur</div>
+            <p>School teacher, ₹40–60k/mo. Buys kitchen from the bazaar, the odd big thing on Flipkart. One bad online order — wrong-brand pan, painful return — so she now prefers walking into a store. Found Gigabox via an Instagram reel and opens it <b>at 9 PM with ~3 minutes of attention.</b></p>
+            <div class="qrow">
+              <span class="qbit">“Is it only kitchen?”</span>
+              <span class="qbit">“Is this a real store?”</span>
+              <span class="qbit">“Can I trust it unseen?”</span>
+            </div>
+            <p class="imp"><b>Design implication:</b> every zone earns her attention. Nothing exists for aesthetics or for returning users — she has no cart, no history, just curiosity and mild skepticism.</p>
+          </div>
+        </div>
+
+        <div class="rail-lead">
+          <h2>The homepage, zone by zone</h2>
+          <p>Nine zones, sequenced to answer her three questions before she scrolls past the fold — <em>what it sells → is it real → can I trust it</em>. Each zone below maps to the live prototype on the right.</p>
+        </div>
+
+        <div id="zones"></div>
+
+        <div class="sec">
+          <h2 class="map-h">The complete zone map</h2>
+          <div id="zonemap" class="zmap"></div>
+        </div>
+      </div>
+
+      <!-- phone -->
+      <div class="phone-col">
+        <div class="controls">
+          <h4>Time of day</h4>
+          <div class="seg" id="timeseg">
+            <button data-mode="open" class="on">☀ 9:04 PM · open</button>
+            <button data-mode="closed">☾ 11:20 PM · closed</button>
+          </div>
+          <div class="jumps" id="jumps"></div>
+        </div>
+        <div id="root"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span><b>Gigabox</b> — homepage redesign · PM assignment walkthrough</span>
+      <span style="opacity:.7">Prototype is fully clickable — search, add to cart, schedule, checkout, browse the store.</span>
+    </div>
+  </footer>
+
+  <!-- libs -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="image-slot.js"></script>
+
+  <!-- app -->
+  <script type="text/babel" src="android-frame.jsx"></script>
+  <script type="text/babel" src="data.js" data-presets="env,react"></script>
+  <script type="text/babel" src="ui.jsx"></script>
+  <script type="text/babel" src="stores.jsx"></script>
+  <script type="text/babel" src="pdp.jsx"></script>
+  <script type="text/babel" src="cart.jsx"></script>
+  <script type="text/babel" src="misc.jsx"></script>
+  <script type="text/babel" src="home.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect } = React;
+
+    function Root(){
+      const [closed, setClosed] = useState(false);
+      // wire external time segmented control
+      useEffect(()=>{
+        const seg = document.getElementById('timeseg');
+        const handler = (e)=>{
+          const b = e.target.closest('button'); if(!b) return;
+          const mode = b.dataset.mode;
+          setClosed(mode==='closed');
+          [...seg.querySelectorAll('button')].forEach(x=>x.classList.toggle('on', x===b));
+        };
+        seg.addEventListener('click', handler);
+        return ()=>seg.removeEventListener('click', handler);
+      },[]);
+      return <GigaboxApp closed={closed} setClosed={setClosed} />;
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Root/>);
+
+    // jump buttons
+    const jumps = [
+      ['Store picker','__picker'],['Home','home'],['Wishlist','wishlist'],
+      ['Store finder','stores'],['Schedule','schedule'],
+      ['Sample product','__pdp'],['Cart','cart'],['Search','search'],
+    ];
+    const jc = document.getElementById('jumps');
+    jumps.forEach(([label,target])=>{
+      const b=document.createElement('button'); b.textContent=label;
+      b.onclick=()=>{
+        if(target==='__pdp'){ window.__gbOpenP && window.__gbOpenP('prestige-3l'); }
+        else if(target==='__picker'){ window.__gbPicker && window.__gbPicker(); }
+        else { window.__gbGo && window.__gbGo(target); }
+      };
+      jc.appendChild(b);
+    });
+
+    // ---- zone-by-zone explainer (from the design doc) ----
+    const ZONES = [
+      { z:'Z1', name:'Smart contextual header', purpose:'Trust + omnichannel identity + wishlist',
+        el:['Location · Open-now status · “App bhi · Store bhi”','Wishlist + Basket actions','After hours: shows “Opens at 7 AM” instead of a dead end'],
+        why:'The old app opened with a bold <b>“Store Closed”</b> — a dead end before she sees a single product. This header answers her first question in one line: is it real, is it open, what makes it different. <b>Wishlist</b> matters because a 9 PM visitor can’t order yet but can save and return — turning a closed-store dead end into a deferred conversion.' },
+      { z:'Z2', name:'Search bar', purpose:'Catalog discovery — kitchen + sports',
+        el:['Animated typing placeholder with delete effect','Cycles: “yoga mat” → “pressure cooker” → “cricket bat” → “air fryer”','Scan / voice icon on the right'],
+        why:'The old search showed <b>100% kitchen</b> prompts — reinforcing a kitchen-only mental model. Mixing sports prompts in gives sports passive visibility with zero layout change. The typing animation feels alive and teaches catalog breadth in the first 10 seconds.' },
+      { z:'Z3', name:'Category tabs', purpose:'Equal category weight',
+        el:['[ All ] [ Kitchen ] [ Sports ]','All selected by default','Equal visual weight across all three'],
+        why:'The old app defaulted to a bold <b>Kitchen</b> tab — Sports looked secondary, so a first-timer assumed kitchen-only. Defaulting to <b>All</b> shows both categories on first load without her making any choice. Neither dominates.' },
+      { z:'Z4', name:'Hero banner + value ribbon', purpose:'Aspiration + value propositions',
+        el:['Alternating lifestyle banners — manually swipeable, not auto-rotating','Dot indicators below','Scrolling ribbon: ✓ You get what you see · 60-min delivery · Buy online, return in store'],
+        why:'Manually swipeable because <b>auto-rotation causes banner blindness</b> — she controls the pace. The scrolling ribbon communicates three promises without consuming hero space — always visible, impossible to miss — replacing static policy text with motion and energy.' },
+      { z:'Z5', name:'Intent selling — Kitchen', purpose:'Curated kitchen journey',
+        el:['Section: “Kitchen Essentials”','Horizontal scroll of curated cards','Each card: brand · name · rating · price · + icon'],
+        why:'The old “Recommended” row showed 3 near-identical pressure cookers — a catalog dump, not a recommendation. Varied subcategories communicate breadth in one row. The label sells <b>intent, not inventory</b> — she isn’t buying a cooker, she’s buying a kitchen setup. The “+” keeps it discovery, not hard-sell.' },
+      { z:'Z6', name:'Intent selling — Sports', purpose:'Sports visibility + aspiration',
+        el:['Section: “Get ready to play” · Sports Essentials','Cricket bat · yoga mat · racket · sports bottle','Each card: brand · name · rating · price · + icon'],
+        why:'<b>The most critical new addition.</b> Sports was invisible to every first-time user — all tiles, prompts and logos were kitchen. This zone makes sports visible with <b>no tap required</b>. She came for kitchen and discovers a real sports catalog through pure passive exposure.' },
+      { z:'Z7', name:'Nearby stores', purpose:'Physical trust + omnichannel CTA',
+        el:['Section: “Nearest store” · pill filters [ All ][ Kitchen ][ Sports ]','Cards: name · category badge · distance · open/hours','Actions: Directions · Call store · Browse in-store','“Find all stores →” links to the Stores tab'],
+        why:'The physical store is Gigabox’s single biggest edge over Amazon and Blinkit — but the old app showed it as a passive photo gallery with no distance, hours or action. This converts the gallery into an active trust mechanic. Showing <b>both</b> stores with All default gives each category physical presence without forcing her to choose.' },
+      { z:'Z8', name:'Handy buys under ₹999', purpose:'Low-risk first purchase',
+        el:['VALUE label · “Handy buys under ₹999”','Sub-label: “Trending in Jodhpur”','Mix of kitchen + sports · struck price · discount % · + icon'],
+        why:'She won’t risk ₹1,500 on a brand she met 3 minutes ago. A ₹199 skipping rope or ₹299 spatula is a <b>zero-risk first purchase</b>. Once she trusts Gigabox with a small order, the ₹1,195 cooker becomes easy. “Trending in Jodhpur” adds local social proof — her neighbours, not an algorithm.' },
+      { z:'Z9', name:'Trust strip', purpose:'Social proof before conversion',
+        el:['5,000+ verified buyers · Easy returns','100% genuine · 20k+ orders delivered','One scannable strip on brand green'],
+        why:'Old reviews were buried below the fold — she never saw them in 3 minutes. Placed <b>here</b>, social proof lands exactly after she’s seen the stores are real (Z7) and prices are fair (Z8). Sequence matters: physical reality → value → social validation. It answers her third question in two seconds.' },
+      { z:'Nav', name:'Stores tab', purpose:'Permanent store discovery',
+        el:['Home · Categories · Stores · Orders · Account','Pill filters [ All ][ Kitchen ][ Sports ], All default','Each card: Directions · Call · Browse in-store picks'],
+        why:'The store is the moat — it deserves a permanent home in the nav, not a card that scrolls away. One tap from every screen. The pill filter mirrors how she thinks: “which Gigabox store is near me right now — kitchen or sports?”' },
+    ];
+
+    const zc = document.getElementById('zones');
+    zc.innerHTML = ZONES.map(z => `
+      <div class="zone" id="zone-${z.z}">
+        <div class="zone-top">
+          <div class="zone-num">${z.z}</div>
+          <div class="zone-head">
+            <h3>${z.name}</h3>
+            <span class="zone-purpose">${z.purpose}</span>
+          </div>
+        </div>
+        <div class="zone-grid">
+          <div class="zblock"><h4>Elements</h4><ul>${z.el.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+          <div class="zblock why"><h4>Why it earns her attention</h4><p>${z.why}</p></div>
+        </div>
+      </div>`).join('');
+
+    document.getElementById('zonemap').innerHTML = ZONES.map(z => `
+      <div class="zmap-row"><span class="zc">${z.z}</span><span class="zn">${z.name}</span><span class="zp">${z.purpose}</span></div>
+    `).join('');
+  </script>
+</body>
+</html>

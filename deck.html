@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gigabox — PM Assignment · Purva</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  deck-stage:not(:defined){ visibility:hidden; }
+  body{ margin:0; background:#0d1f19; }
+  deck-stage{ --pad:96px; }
+  section{ font-family:var(--font-text); color:var(--ink); overflow:hidden; }
+
+  .s{ width:1920px; height:1080px; box-sizing:border-box; padding:var(--pad); position:relative; }
+  .s-cream{ background:var(--paper); }
+  .s-paper{ background:#FBF8F0; }
+  .s-forest{ background:var(--forest); color:#fff; }
+  .s-forest .ink{ color:#fff; }
+
+  .ey{ font-size:24px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--leaf-ink); }
+  .s-forest .ey{ color:var(--butter); }
+  .disp{ font-family:var(--font-display); letter-spacing:-.02em; }
+  h1.t{ font-family:var(--font-display); font-weight:800; font-size:108px; line-height:.98; letter-spacing:-.03em; margin:0; }
+  h2.t{ font-family:var(--font-display); font-weight:800; font-size:72px; line-height:1.02; letter-spacing:-.025em; margin:0; }
+  .lead{ font-size:30px; line-height:1.5; color:var(--ink-2); }
+  .s-forest .lead{ color:rgba(255,255,255,.86); }
+  .num{ font-variant-numeric:tabular-nums; }
+
+  .row{ display:flex; gap:64px; }
+  .grow{ flex:1; min-width:0; }
+  .center{ display:flex; align-items:center; }
+
+  /* footer tag */
+  .foot{ position:absolute; left:var(--pad); bottom:46px; font-size:19px; font-weight:600; color:var(--muted); letter-spacing:.01em; display:flex; align-items:center; gap:12px; }
+  .s-forest .foot{ color:rgba(255,255,255,.5); }
+  .foot b{ color:var(--forest); font-family:var(--font-display); font-weight:800; }
+  .s-forest .foot b{ color:var(--butter); }
+  .pageno{ position:absolute; right:var(--pad); bottom:46px; font-size:19px; font-weight:700; color:var(--muted); }
+  .s-forest .pageno{ color:rgba(255,255,255,.5); }
+
+  /* logo lockup */
+  .logo{ display:inline-flex; align-items:center; gap:14px; font-family:var(--font-display); font-weight:800; font-size:30px; letter-spacing:-.01em; }
+  .logo .mk{ width:46px; height:46px; border-radius:13px; background:var(--butter); display:grid; place-items:center; color:var(--forest); font-size:26px; }
+
+  /* cards */
+  .card{ background:#fff; border:1px solid var(--line); border-radius:26px; padding:38px; box-shadow:var(--shadow-sm); }
+  .s-forest .card{ background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.14); box-shadow:none; }
+  .pill{ display:inline-flex; align-items:center; gap:10px; background:var(--leaf-soft); color:var(--leaf-ink); font-weight:800; font-size:21px; padding:10px 18px; border-radius:40px; }
+
+  .qbig{ font-family:var(--font-display); font-weight:800; font-size:52px; line-height:1.08; letter-spacing:-.02em; }
+  .qmark{ width:74px; height:74px; border-radius:20px; background:var(--butter); color:var(--forest); font-family:var(--font-display); font-weight:800; font-size:40px; display:grid; place-items:center; flex-shrink:0; }
+
+  .anno{ position:absolute; background:#fff; border:1px solid var(--line); border-radius:20px; padding:22px 26px; box-shadow:var(--shadow-md); width:430px; }
+  .anno .k{ font-size:18px; font-weight:800; color:var(--leaf-ink); letter-spacing:.04em; text-transform:uppercase; }
+  .anno h4{ margin:7px 0 6px; font-size:27px; font-family:var(--font-display); font-weight:800; }
+  .anno p{ margin:0; font-size:20px; line-height:1.45; color:var(--ink-2); }
+  .anno .dot{ position:absolute; width:20px; height:20px; border-radius:50%; background:var(--butter); border:4px solid #fff; box-shadow:var(--shadow-sm); }
+
+  .metric{ font-family:var(--font-display); font-weight:800; font-size:64px; color:var(--forest); line-height:1; }
+  .s-forest .metric{ color:var(--butter); }
+
+  ul.clean{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:22px; }
+  ul.clean li{ display:flex; gap:18px; font-size:25px; line-height:1.4; }
+  ul.clean li b{ font-weight:800; }
+  .tick{ flex-shrink:0; width:38px; height:38px; border-radius:11px; background:var(--leaf-soft); display:grid; place-items:center; margin-top:2px; }
+  .s-forest .tick{ background:rgba(242,200,75,.18); }
+
+  .sw{ display:flex; flex-direction:column; gap:10px; }
+  .sw .chip{ height:104px; border-radius:18px; display:flex; align-items:flex-end; padding:16px; color:#fff; font-weight:800; font-size:18px; }
+  .sw .lab{ font-size:19px; font-weight:700; }
+  .sw .hex{ font-size:15px; color:var(--muted); font-variant-numeric:tabular-nums; }
+
+  @media (prefers-reduced-motion:no-preference){
+    [data-deck-active] .anim{ animation:gb-fade-up .6s both; }
+    [data-deck-active] .anim2{ animation:gb-fade-up .6s .12s both; }
+    [data-deck-active] .anim3{ animation:gb-fade-up .6s .24s both; }
+  }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+  <!-- 1 · TITLE -->
+  <section class="s s-forest" data-label="Title">
+    <div class="logo anim"><span class="mk">▣</span> Gigabox</div>
+    <div style="position:absolute; left:96px; top:50%; transform:translateY(-54%);">
+      <div class="ey anim">PM Assignment · Homepage & Omnichannel</div>
+      <h1 class="t anim2" style="margin-top:26px; max-width:18ch;">Winning Priyanka in the first three minutes</h1>
+      <p class="lead anim3" style="margin-top:34px; max-width:60ch;">How the Gigabox homepage answers a skeptical first-time shopper's three silent questions — before she scrolls past the fold.</p>
+    </div>
+    <div class="foot" style="bottom:64px;"><b>Purva</b> · Product Management</div>
+    <div class="pageno" style="bottom:64px;">Gigabox · 2026</div>
+  </section>
+
+  <!-- 2 · THE BRIEF -->
+  <section class="s s-cream" data-label="The brief">
+    <div class="ey anim">The product</div>
+    <h2 class="t anim2" style="margin-top:18px; max-width:24ch;">A neighbourhood store that also delivers in 60 minutes</h2>
+    <div class="row anim3" style="margin-top:64px;">
+      <div class="card grow"><div class="pill">What it is</div><p class="lead" style="margin-top:20px; color:var(--ink-2);">Gigabox sells <b>kitchen & sports</b> goods online <b>and</b> from a real store in Jodhpur. Order before 9:30 PM, get it in an hour.</p></div>
+      <div class="card grow"><div class="pill">The edge</div><p class="lead" style="margin-top:20px; color:var(--ink-2);">Unlike app-only rivals, there's a <b>physical shop you can walk into</b> — the trust asset most quick-commerce brands don't have.</p></div>
+      <div class="card grow"><div class="pill">The catch</div><p class="lead" style="margin-top:20px; color:var(--ink-2);">She arrives <b>at night</b>, store nearly closed, on a <b>first visit</b> with no account, no history — and a bad memory of online shopping.</p></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · The brief</div><div class="pageno">02</div>
+  </section>
+
+  <!-- 3 · PERSONA -->
+  <section class="s s-paper" data-label="Persona">
+    <div class="row" style="height:100%; align-items:center; gap:80px;">
+      <div style="width:560px; flex-shrink:0;" class="anim">
+        <div class="card" style="padding:0; overflow:hidden;">
+          <image-slot id="persona-photo" shape="rect" style="width:560px; height:380px; display:block;" placeholder="Drop a photo of Priyanka (optional)"></image-slot>
+          <div style="padding:34px;">
+            <div class="disp" style="font-size:46px; font-weight:800;">Priyanka, 32</div>
+            <div class="lead" style="margin-top:8px; font-size:24px;">School teacher · Jodhpur · ₹40–60k / month</div>
+          </div>
+        </div>
+      </div>
+      <div class="grow">
+        <div class="ey anim2">Who we're designing for</div>
+        <h2 class="t anim2" style="margin-top:16px;">Curious, but burned once</h2>
+        <ul class="clean anim3" style="margin-top:40px;">
+          <li><span class="tick">🛒</span><span>Buys kitchenware at the <b>local bazaar</b>; Flipkart only for big purchases.</span></li>
+          <li><span class="tick">📦</span><span>Once ordered a pan, got the <b>wrong brand</b> — the return was painful. Now she prefers walking into a store.</span></li>
+          <li><span class="tick">📱</span><span>Found Gigabox via an <b>Instagram reel</b>. Opens it at 9 PM. Store's closed.</span></li>
+          <li><span class="tick">⏳</span><span>Gives it <b>~3 minutes</b>. No cart, no loyalty — just curiosity and mild skepticism.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · The user</div><div class="pageno">03</div>
+  </section>
+
+  <!-- 4 · THE 3 QUESTIONS -->
+  <section class="s s-forest" data-label="3 questions">
+    <div class="ey anim">3-minute window · her silent questions</div>
+    <h2 class="t anim" style="margin-top:18px;">If the fold answers these, she stays.</h2>
+    <div style="display:flex; flex-direction:column; gap:30px; margin-top:64px; max-width:1500px;">
+      <div class="card center anim" style="gap:30px; padding:34px 40px;"><div class="qmark">1</div><div class="qbig">“What does this actually sell — is it <span style="color:var(--butter)">only kitchen</span> stuff?”</div></div>
+      <div class="card center anim2" style="gap:30px; padding:34px 40px;"><div class="qmark">2</div><div class="qbig">“Is this a <span style="color:var(--butter)">real store</span>, or another app that'll disappear?”</div></div>
+      <div class="card center anim3" style="gap:30px; padding:34px 40px;"><div class="qmark">3</div><div class="qbig">“Can I <span style="color:var(--butter)">trust</span> ordering without seeing the product first?”</div></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · The problem</div><div class="pageno">04</div>
+  </section>
+
+  <!-- 5 · PRINCIPLES -->
+  <section class="s s-cream" data-label="Principles">
+    <div class="ey anim">Design stance</div>
+    <h2 class="t anim2" style="margin-top:18px; max-width:22ch;">Every zone earns her attention — or it's cut</h2>
+    <div class="row anim3" style="margin-top:60px;">
+      <div class="card grow"><div class="metric">01</div><h4 class="disp" style="font-size:32px; margin:16px 0 10px;">Answer, don't decorate</h4><p class="lead" style="font-size:23px;">Nothing exists for aesthetics or returning users. The first screen replies to her three questions, in order.</p></div>
+      <div class="card grow"><div class="metric">02</div><h4 class="disp" style="font-size:32px; margin:16px 0 10px;">Lead with the store</h4><p class="lead" style="font-size:23px;">The physical shop is our rarest trust signal — so it sits high, with a photo, ratings and live hours.</p></div>
+      <div class="card grow"><div class="metric">03</div><h4 class="disp" style="font-size:32px; margin:16px 0 10px;">Speak to the scar</h4><p class="lead" style="font-size:23px;">Her fear is “wrong product.” We answer it literally: exact brand, or a full refund and free pickup.</p></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Principles</div><div class="pageno">05</div>
+  </section>
+
+  <!-- 6 · THE HOMEPAGE (money slide) -->
+  <section class="s s-paper" data-label="Homepage">
+    <div class="ey" style="position:absolute; left:96px; top:80px;">The redesigned homepage</div>
+    <h2 class="t" style="position:absolute; left:96px; top:120px;">Three answers, above the fold</h2>
+    <div class="phone" data-screen="home" data-w="440" data-scroll="0" style="position:absolute; left:120px; top:236px;"></div>
+
+    <div class="anno" style="left:640px; top:250px;">
+      <div class="k">Q1 · what it sells</div>
+      <h4>Tabs say it instantly</h4>
+      <p>All · Kitchen · Sports · <b>More soon</b>. Breadth and trajectory, visible in frame one.</p>
+    </div>
+    <div class="anno" style="left:640px; top:470px;">
+      <div class="k">Q2 · is it real</div>
+      <h4>A store you can visit</h4>
+      <p>Photo, “Open now”, 4.7★ from 2,317 shoppers, 2.3 km away — with Directions & Call.</p>
+    </div>
+    <div class="anno" style="left:640px; top:690px;">
+      <div class="k">Q3 · can I trust it</div>
+      <h4>Exact brand, or refund</h4>
+      <p>A trust ribbon answers her pan story directly — plus 7-day returns and pay-on-delivery.</p>
+    </div>
+    <div class="card" style="position:absolute; left:1180px; top:300px; width:560px;">
+      <div class="pill">The thesis</div>
+      <p class="lead" style="margin-top:22px; font-size:26px;">She shouldn't have to <b>search, scroll, or sign up</b> to feel safe. The homepage does the reassuring — the store does the proving.</p>
+      <div style="height:1px; background:var(--line); margin:30px 0;"></div>
+      <p style="font-size:21px; color:var(--muted); margin:0;">Modernized brand: same cream-and-forest spirit, sharper type, calmer hierarchy, quick-commerce energy where it counts.</p>
+    </div>
+    <div class="foot"><b>Gigabox</b> · The solution</div><div class="pageno">06</div>
+  </section>
+
+  <!-- 7 · Q1 -->
+  <section class="s s-cream" data-label="Q1 sells">
+    <div class="row" style="height:100%; align-items:center; gap:80px;">
+      <div class="phone" data-screen="home" data-w="420" data-scroll="0" style="flex-shrink:0;"></div>
+      <div class="grow">
+        <div class="qmark anim" style="width:64px; height:64px; font-size:34px;">1</div>
+        <h2 class="t anim2" style="margin-top:24px;">“Is it only kitchen?”</h2>
+        <p class="lead anim3" style="margin-top:24px; max-width:46ch;">The category tabs do the talking from pixel one — and the <b>“More soon”</b> badge reframes a small catalog as an <b>ambition</b>, not a limitation.</p>
+        <ul class="clean anim3" style="margin-top:40px;">
+          <li><span class="tick">✓</span><span>Kitchen <b>and</b> Sports already live — not a one-category app.</span></li>
+          <li><span class="tick">✓</span><span>“More soon” signals a real, growing business.</span></li>
+          <li><span class="tick">✓</span><span>The hero banner doubles down: “shop online or walk in.”</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Question 1</div><div class="pageno">07</div>
+  </section>
+
+  <!-- 8 · Q2 -->
+  <section class="s s-paper" data-label="Q2 real">
+    <div class="row" style="height:100%; align-items:center; gap:80px;">
+      <div class="grow">
+        <div class="qmark anim" style="width:64px; height:64px; font-size:34px;">2</div>
+        <h2 class="t anim2" style="margin-top:24px;">“Is this real, or will it vanish?”</h2>
+        <p class="lead anim3" style="margin-top:24px; max-width:46ch;">We answer with the thing app-only rivals can't fake: a <b>real shop with an address</b>. The store-proof card carries the homepage's trust load.</p>
+        <ul class="clean anim3" style="margin-top:40px;">
+          <li><span class="tick">★</span><span><b>Social proof:</b> 4.7★ from 2,317 local shoppers.</span></li>
+          <li><span class="tick">📍</span><span><b>Physical proof:</b> open now, 2.3 km away, full address.</span></li>
+          <li><span class="tick">🤝</span><span><b>Accountability:</b> GST-registered, brand-billed, here since 2016.</span></li>
+        </ul>
+      </div>
+      <div class="phone" data-screen="stores" data-w="420" data-scroll="0" style="flex-shrink:0;"></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Question 2</div><div class="pageno">08</div>
+  </section>
+
+  <!-- 9 · Q3 -->
+  <section class="s s-cream" data-label="Q3 trust">
+    <div class="row" style="height:100%; align-items:center; gap:80px;">
+      <div class="phone" data-screen="pdp" data-w="420" data-scroll="560" style="flex-shrink:0;"></div>
+      <div class="grow">
+        <div class="qmark anim" style="width:64px; height:64px; font-size:34px;">3</div>
+        <h2 class="t anim2" style="margin-top:24px;">“Can I trust it without seeing it?”</h2>
+        <p class="lead anim3" style="margin-top:24px; max-width:46ch;">Her real fear is the wrong-pan moment. The product page answers it as a <b>promise, not fine print</b> — and offers the ultimate safety net.</p>
+        <ul class="clean anim3" style="margin-top:36px;">
+          <li><span class="tick">🛡️</span><span><b>“Exact brand, or full refund.”</b> Her exact scar, addressed head-on.</span></li>
+          <li><span class="tick">↩️</span><span>7-day no-questions returns, free home pickup.</span></li>
+          <li><span class="tick">🏬</span><span><b>“Rather see it first?”</b> It's on the shelf 2.3 km away — doubt becomes a visit.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Question 3</div><div class="pageno">09</div>
+  </section>
+
+  <!-- 10 · AFTER 10 PM -->
+  <section class="s s-paper" data-label="After 10 PM">
+    <div class="ey anim" style="position:absolute; left:96px; top:80px;">After hours · 11:18 PM</div>
+    <h2 class="t anim2" style="position:absolute; left:96px; top:118px;">When the store sleeps, the cart doesn't</h2>
+    <div class="phone anim3" data-screen="home" data-closed="1" data-w="400" data-scroll="0" style="position:absolute; left:120px; top:250px;"></div>
+    <div class="phone anim3" data-screen="schedule" data-closed="1" data-w="400" data-scroll="300" style="position:absolute; left:610px; top:250px;"></div>
+    <div class="card" style="position:absolute; left:1110px; top:300px; width:620px;">
+      <div class="pill">The graceful close</div>
+      <ul class="clean" style="margin-top:28px;">
+        <li><span class="tick">☾</span><span><b>Honest header</b> — “Delivery resumes 7 AM,” never a dead “unavailable” wall.</span></li>
+        <li><span class="tick">🛒</span><span><b>Cart stays open</b> — she can still browse and build it at midnight.</span></li>
+        <li><span class="tick">⏰</span><span><b>Schedule for the morning</b> in two taps; pay at the door.</span></li>
+      </ul>
+      <p style="font-size:21px; color:var(--muted); margin:28px 0 0;">A bounce at 11 PM is a lost user. A scheduled order is a won one.</p>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Scheduling</div><div class="pageno">10</div>
+  </section>
+
+  <!-- 11 · OMNICHANNEL -->
+  <section class="s s-forest" data-label="Omnichannel">
+    <div class="row" style="height:100%; align-items:center; gap:80px;">
+      <div class="grow">
+        <div class="ey anim">Pitching the stores</div>
+        <h2 class="t anim2" style="margin-top:16px;">Online and in-store, one promise</h2>
+        <p class="lead anim3" style="margin-top:26px; max-width:46ch;">The store isn't a footnote — it's a <b>conversion engine</b> for the hesitant. We make “see it, then buy it” a first-class path.</p>
+        <ul class="clean anim3" style="margin-top:40px;">
+          <li><span class="tick">🛍️</span><span><b>See it. Touch it. Then decide.</b> Free demos in-store remove first-order fear.</span></li>
+          <li><span class="tick">🏷️</span><span><b>One price, both channels</b> — kills the “online is a trick” suspicion.</span></li>
+          <li><span class="tick">↩️</span><span><b>Returns at the counter</b> — a human to hand it back to.</span></li>
+          <li><span class="tick">📍</span><span><b>Store finder + “coming soon”</b> — the brand feels like it's growing roots.</span></li>
+        </ul>
+      </div>
+      <div class="phone" data-screen="stores" data-w="420" data-scroll="0" style="flex-shrink:0;"></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · Omnichannel</div><div class="pageno">11</div>
+  </section>
+
+  <!-- 12 · FULL PATH -->
+  <section class="s s-cream" data-label="Full flow">
+    <div class="ey anim">End to end</div>
+    <h2 class="t anim2" style="margin-top:16px;">From curiosity to a placed order</h2>
+    <div style="display:flex; gap:36px; margin-top:48px; align-items:flex-start;">
+      <div style="text-align:center;"><div class="phone" data-screen="home" data-w="320" data-scroll="0"></div><div style="font-weight:800; font-size:23px; margin-top:14px;">1 · Discover</div></div>
+      <div style="text-align:center;"><div class="phone" data-screen="pdp" data-w="320" data-scroll="0"></div><div style="font-weight:800; font-size:23px; margin-top:14px;">2 · Trust the product</div></div>
+      <div style="text-align:center;"><div class="phone" data-screen="cart" data-w="320" data-scroll="0" data-seeded="1"></div><div style="font-weight:800; font-size:23px; margin-top:14px;">3 · Review cart</div></div>
+      <div style="text-align:center;"><div class="phone" data-screen="checkout" data-w="320" data-scroll="0" data-seeded="1"></div><div style="font-weight:800; font-size:23px; margin-top:14px;">4 · Pay at the door</div></div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · The flow</div><div class="pageno">12</div>
+  </section>
+
+  <!-- 13 · BANNER SYSTEM -->
+  <section class="s s-paper" data-label="Banners">
+    <div class="ey anim">Marketing banner system</div>
+    <h2 class="t anim2" style="margin-top:16px; max-width:24ch;">One slot, three jobs — never just “a sale”</h2>
+    <div class="row anim3" style="margin-top:56px;">
+      <div class="card grow"><div class="pill" style="background:var(--butter-2); color:var(--butter-ink);">Trust</div><h4 class="disp" style="font-size:30px; margin:18px 0 10px;">Online + in-store</h4><p class="lead" style="font-size:22px;">Leads with the omnichannel story for first-timers like Priyanka.</p></div>
+      <div class="card grow"><div class="pill">Speed</div><h4 class="disp" style="font-size:30px; margin:18px 0 10px;">60-minute setup</h4><p class="lead" style="font-size:22px;">Pushes the delivery promise + a clear “order before 9:30 PM.”</p></div>
+      <div class="card grow"><div class="pill" style="background:#E0E6F3; color:var(--forest);">Breadth</div><h4 class="disp" style="font-size:30px; margin:18px 0 10px;">New: Sports</h4><p class="lead" style="font-size:22px;">Surfaces category expansion — answers Q1 a second time.</p></div>
+    </div>
+    <p class="lead" style="margin-top:46px; max-width:90ch; color:var(--muted); font-size:23px;">Rotating, dismissible, and ordered by the visitor's likely intent — a new user sees <b>trust</b> first, a returning one sees <b>speed</b>.</p>
+    <div class="foot"><b>Gigabox</b> · Banners</div><div class="pageno">13</div>
+  </section>
+
+  <!-- 14 · DESIGN SYSTEM -->
+  <section class="s s-cream" data-label="Design system">
+    <div class="ey anim">Visual language</div>
+    <h2 class="t anim2" style="margin-top:16px;">Modernized, not reinvented</h2>
+    <div class="row anim3" style="margin-top:56px; gap:56px;">
+      <div class="grow">
+        <div style="font-weight:800; font-size:24px; margin-bottom:22px;">Palette</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+          <div class="sw"><div class="chip" style="background:var(--forest);">Forest</div><div class="lab">Brand anchor</div><div class="hex">#143229</div></div>
+          <div class="sw"><div class="chip" style="background:var(--butter); color:var(--forest);">Butter</div><div class="lab">Accent / energy</div><div class="hex">#F2C84B</div></div>
+          <div class="sw"><div class="chip" style="background:var(--leaf);">Leaf</div><div class="lab">Go · delivery · add</div><div class="hex">#18935C</div></div>
+          <div class="sw"><div class="chip" style="background:var(--paper); color:var(--ink); border:1px solid var(--line);">Cream</div><div class="lab">Warm canvas</div><div class="hex">#F3EEE0</div></div>
+        </div>
+      </div>
+      <div class="grow">
+        <div style="font-weight:800; font-size:24px; margin-bottom:22px;">Type</div>
+        <div class="card">
+          <div style="font-size:18px; color:var(--muted); font-weight:700; letter-spacing:.06em;">DISPLAY · BRICOLAGE GROTESQUE</div>
+          <div class="disp" style="font-size:72px; font-weight:800; line-height:1; margin:10px 0 28px;">60-min delivery</div>
+          <div style="font-size:18px; color:var(--muted); font-weight:700; letter-spacing:.06em;">TEXT · HANKEN GROTESK</div>
+          <div style="font-size:30px; margin-top:10px; line-height:1.4;">Crisp, friendly, quick-commerce. Built for prices, labels and reassurance.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><b>Gigabox</b> · System</div><div class="pageno">14</div>
+  </section>
+
+  <!-- 15 · METRICS -->
+  <section class="s s-forest" data-label="Metrics">
+    <div class="ey anim">As a PM, here's what I'd watch</div>
+    <h2 class="t anim2" style="margin-top:16px;">Did the fold do its job?</h2>
+    <div class="row anim3" style="margin-top:64px;">
+      <div class="card grow"><div class="metric">D1</div><h4 class="disp" style="font-size:30px; margin:14px 0 8px; color:#fff;">First-session add-to-cart</h4><p class="lead" style="font-size:22px; color:rgba(255,255,255,.8);">Did she act, or bounce? The truest read on whether trust landed.</p></div>
+      <div class="card grow"><div class="metric">↩</div><h4 class="disp" style="font-size:30px; margin:14px 0 8px; color:#fff;">Store-card engagement</h4><p class="lead" style="font-size:22px; color:rgba(255,255,255,.8);">Directions / Call / “see in store” taps — is the omnichannel pitch working?</p></div>
+      <div class="card grow"><div class="metric">☾</div><h4 class="disp" style="font-size:30px; margin:14px 0 8px; color:#fff;">After-hours recovery</h4><p class="lead" style="font-size:22px; color:rgba(255,255,255,.8);">Scheduled orders vs. night bounces — did we save the late visitor?</p></div>
+    </div>
+    <p class="lead anim3" style="margin-top:46px; color:rgba(255,255,255,.7); font-size:23px;">Next: A/B the store-card placement, instrument scroll-depth against the three zones, and pilot in-store pickup.</p>
+    <div class="foot"><b>Gigabox</b> · Measurement</div><div class="pageno">15</div>
+  </section>
+
+  <!-- 16 · CLOSE -->
+  <section class="s s-forest" data-label="Thank you">
+    <div class="logo anim"><span class="mk">▣</span> Gigabox</div>
+    <div style="position:absolute; left:96px; top:50%; transform:translateY(-54%);">
+      <h1 class="t anim2" style="max-width:18ch;">Curiosity, converted.</h1>
+      <p class="lead anim3" style="margin-top:30px; max-width:56ch;">Answer her three questions before the fold, keep the door open after hours, and let the real store do the proving — and Priyanka comes back.</p>
+      <div class="anim3" style="margin-top:48px; font-size:26px; font-weight:700;">Thank you. &nbsp;—&nbsp; <span style="color:var(--butter); font-family:var(--font-display); font-weight:800;">Purva</span></div>
+    </div>
+    <div class="foot" style="bottom:64px;"><b>Gigabox</b> · PM Assignment</div>
+    <div class="pageno" style="bottom:64px;">16</div>
+  </section>
+
+</deck-stage>
+
+<!-- libs -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="image-slot.js"></script>
+
+<script type="text/babel" src="android-frame.jsx"></script>
+<script type="text/babel" src="data.js" data-presets="env,react"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="home.jsx"></script>
+<script type="text/babel" src="stores.jsx"></script>
+<script type="text/babel" src="pdp.jsx"></script>
+<script type="text/babel" src="cart.jsx"></script>
+<script type="text/babel" src="misc.jsx"></script>
+<script type="text/babel" src="deck-mounts.jsx"></script>
+<script src="deck-stage.js"></script>
+
+<script type="text/babel" data-presets="env,react">
+  (function tryMount(){
+    if (window.__mountPhones && window.HomeScreen && window.GB && window.AndroidDevice) {
+      window.__mountPhones();
+    } else { setTimeout(tryMount, 80); }
+  })();
+</script>
+</body>
+</html>

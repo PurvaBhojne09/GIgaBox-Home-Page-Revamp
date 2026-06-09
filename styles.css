@@ -1,0 +1,81 @@
+/* ============================================================
+   Gigabox — modernized visual system
+   Cream paper · forest green · butter yellow · fresh leaf
+   Display: Bricolage Grotesque  ·  Text/UI: Hanken Grotesk
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
+
+:root{
+  /* surfaces */
+  --paper:      #F3EEE0;   /* warm cream */
+  --paper-2:    #FBF8F0;
+  --card:       #FFFFFF;
+  --field:      #F4F1E9;
+
+  /* ink */
+  --ink:        #15201A;
+  --ink-2:      #3C4842;
+  --muted:      #6E7872;
+
+  /* brand */
+  --forest:     #143229;   /* deep brand green (header / storefront) */
+  --forest-2:   #1D4A3B;
+  --leaf:       #18935C;    /* fresh delivery green */
+  --leaf-soft:  #E3F2E9;
+  --leaf-ink:   #0C5F39;
+
+  /* accent */
+  --butter:     #F2C84B;    /* yellow */
+  --butter-2:   #F8E4A0;
+  --butter-ink: #6B4E0A;
+
+  --danger:     #C9462E;
+
+  /* lines & shadow */
+  --line:       rgba(20,40,30,0.09);
+  --line-2:     rgba(20,40,30,0.16);
+  --shadow-sm:  0 1px 2px rgba(16,40,28,0.06), 0 1px 3px rgba(16,40,28,0.05);
+  --shadow-md:  0 6px 20px rgba(16,40,28,0.10);
+  --shadow-lg:  0 18px 48px rgba(16,40,28,0.18);
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-text:    'Hanken Grotesk', system-ui, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+/* ---------- case-study page shell ---------- */
+body{
+  margin:0;
+  font-family: var(--font-text);
+  color: var(--ink);
+  background: #E9E7DF;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* phone app text defaults live under .gb (the app root) */
+.gb, .gb *{ font-family: var(--font-text); }
+.gb{ color: var(--ink); }
+
+/* tidy scrollbars inside the phone */
+.gb-scroll::-webkit-scrollbar{ width:0; height:0; }
+.gb-scroll{ scrollbar-width:none; }
+
+.no-scrollbar::-webkit-scrollbar{ display:none; }
+.no-scrollbar{ scrollbar-width:none; -ms-overflow-style:none; }
+
+/* utility */
+.disp{ font-family: var(--font-display); letter-spacing:-0.01em; }
+.tnum{ font-variant-numeric: tabular-nums; }
+
+button{ font-family: inherit; cursor: pointer; border:none; background:none; }
+
+@keyframes gb-fade-up{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+@keyframes gb-fade{ from{opacity:0;} to{opacity:1;} }
+@keyframes gb-pop{ 0%{transform:scale(.85);} 60%{transform:scale(1.08);} 100%{transform:scale(1);} }
+@keyframes gb-slide-up{ from{transform:translateY(100%);} to{transform:translateY(0);} }
+@keyframes gb-pulse{ 0%,100%{opacity:1;} 50%{opacity:.45;} }
+@keyframes gb-marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+@keyframes gb-blink{ 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
+.gb-caret{ display:inline-block; color:var(--leaf); font-weight:400; animation:gb-blink 1s step-end infinite; }
